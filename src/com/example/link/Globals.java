@@ -9,7 +9,7 @@ public class Globals {
 	// Static variables that need to be saved:
 
 	// Number of translations the user has left
-	public static volatile int initialCredits = 5;
+	public static volatile int initialCredits = 10;
 	public static volatile int creditsRemaining = initialCredits; 
 
 	// Number of translations used
@@ -55,5 +55,10 @@ public class Globals {
 		"ur", "vi", "cy", "yi"};
 
 	public static volatile boolean[] language_available = new boolean[64];
+	
+	// Flags
+	public static volatile boolean hasTextToSpeech;
+	public static volatile boolean hasSpeechRecognizer;
+	
 	
 }

@@ -69,10 +69,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			initialize();
 		}
 		updateUI();
-		checkVoiceRecognition();
-		checkAvailableLanguages();
-		TranslateTextTask task = new TranslateTextTask();
-		task.execute("testing");
 	}
 
 	@Override
@@ -81,7 +77,17 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	/* ************************************************************** */
+	/* ********************** Update Information ******************** */
+	/* ************************************************************** */
 
+	public void updateCredits() {
+		Globals.creditsRemaining--;
+		Globals.creditsUsed++;
+	}
+	
+	
 	/**
 	 * Updates the UI elements of the app
 	 */
@@ -122,7 +128,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			if (internetConnected()) {
 				TranslateTextTask task = new TranslateTextTask();
 				task.execute(new String[] { thingsYouSaid.get(0) });
-				
 			}
 			else {
 				new AlertDialog.Builder(this).setTitle("Alert").setMessage("You are not connected to the internet").setNeutralButton("OK", null).show();
@@ -142,9 +147,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		@Override
 		protected String doInBackground(String... urls) {
 			try {
-				// Set the Google Translate API key
-			    // See: http://code.google.com/apis/language/translate/v2/getting_started.html
-				input = "My Name is Ali";
 				String googleApiKey = "AIzaSyB1fwathoLC04eSlvY8p5CmLxHBJbSyrMk";
 				String URL = "https://www.googleapis.com/language/translate/v2?key=MY_API_KEY&source=INITIAL_LANGUAGE_AB&target=OUTPUT_LANGUAGE_AB&q=" + input.replaceAll(" ", "+");  
 				URL = URL.replace("MY_API_KEY", googleApiKey);
@@ -244,21 +246,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
-	/**
-	 * Checks whether the device has speech recognition
-	 */
-	private void checkVoiceRecognition() {
-		// Check if voice recognition is present
-		PackageManager pm = getPackageManager();
-		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
-				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-		if (activities.size() == 0) {
-
-			Toast.makeText(this, "Speech to Text service not available on this phone",
-					Toast.LENGTH_SHORT).show();
-		}
-	}
-
 	/* ************************************************************** */
 	/* ********************** Set Up / Clean Up ********************* */
 	/* ************************************************************** */
@@ -272,18 +259,30 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			Globals.creditsUsed = 0;
 			Globals.firstOpen = false;
 			checkAvailableLanguages();
+			checkVoiceRecognition();
 		}
 	}
 	
 	public void checkAvailableLanguages() {
-		
+		// TODO - NEED TO COMPLETE
 		Locale loc = new Locale("en");
 		Log.e("-------------",Arrays.toString(loc.getAvailableLocales()));
-
 	}
-	
 
-	
+	/**
+	 * Checks whether the device has speech recognition
+	 */
+	private void checkVoiceRecognition() {
+		// Check if voice recognition is present
+		PackageManager pm = getPackageManager();
+		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
+				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+		if (activities.size() == 0) {
+			Toast.makeText(this, "Speech to Text service not available on this phone",
+					Toast.LENGTH_LONG).show();
+		}
+	}
+
 	/**
 	 * Need to clean up text to speech stuff when app is destroyed
 	 */
