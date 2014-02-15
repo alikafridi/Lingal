@@ -4,7 +4,16 @@
     android:layout_height="match_parent"
     android:background="@color/midnight_blue"
     android:orientation="vertical"
+    android:id="@+id/mainLayout"
     tools:context=".MainActivity" >
+    
+    <LinearLayout 
+    android:id="@+id/adlayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".MainActivity" > </LinearLayout>
 
     <ImageButton
         android:id="@+id/record"
@@ -17,10 +26,22 @@
         android:onClick="startListening"
         android:src="@android:drawable/ic_btn_speak_now" />
 
+    <TextView
+        android:id="@+id/language1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="37dp"
+        android:text="Select language 1:"
+        android:textColor="@color/clouds" />
+    
     <Spinner
         android:id="@+id/inputLanguageSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/clouds" />
 
     <TextView
         android:id="@+id/inputText"
@@ -29,13 +50,26 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:layout_marginTop="37dp"
+        android:textSize="16dp"
         android:text="@string/empty"
         android:textColor="@color/clouds" />
 
+    <TextView
+        android:id="@+id/language2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
+        android:text="Select language 2:"
+        android:textColor="@color/clouds" />
+    
     <Spinner
         android:id="@+id/outputLanguageSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/clouds" />
 
     <TextView
         android:id="@+id/translatedText"
@@ -44,6 +78,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:layout_marginTop="37dp"
+        android:textSize="16dp"
         android:text="@string/empty"
         android:textColor="@color/clouds" />
 

@@ -54,8 +54,8 @@ public class Globals {
 		"pt", "ro", "ru", "sr", "sk", "sl", "es", "sw", "sv", "ta", "te", "th", "tr", "uk",
 		"ur", "vi", "cy", "yi"};
 
-
 	public static volatile int numLanguages = 64;
+	public static volatile String[] language_speech  = new String[numLanguages];
 	public static volatile boolean[] language_available = new boolean[numLanguages];
 	
 	// Flags

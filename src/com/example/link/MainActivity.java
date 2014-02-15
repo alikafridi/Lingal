@@ -30,22 +30,27 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.memetix.mst.language.Language;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends Activity implements TextToSpeech.OnInitListener{
 
+	private AdView adView;
+	
 	public static final String LOG_TAG = "Main Activity";
 	protected static final int REQUEST_OK = 1;
 
 	public static String input = "";
 	public static String output = "";
 
-	public static Language input_lang = Language.ENGLISH;
-	public static Language output_lang = Language.FRENCH;
+	public static String inputLang;
+	public static String outputLang;
 
 	private TextToSpeech mTts;
 
@@ -73,6 +78,24 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		}
 		updateUI();
 		populateSpinners();
+		
+		// Create the adView.
+	    adView = new AdView(this);
+	    adView.setAdUnitId("ca-app-pub-7661487200792390/2093765061");
+	    adView.setAdSize(AdSize.BANNER);
+
+	    // Lookup your LinearLayout assuming it's been given
+	    // the attribute android:id="@+id/mainLayout".
+	    LinearLayout layout = (LinearLayout)findViewById(R.id.adlayout);
+
+	    // Add the adView to it.
+	    layout.addView(adView);
+
+	    // Initiate a generic request.
+	    AdRequest adRequest = new AdRequest.Builder().build();
+
+	    // Load the adView with the ad request.
+	    adView.loadAd(adRequest);
 	}
 
 	@Override
@@ -110,8 +133,21 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	 * @param v
 	 */
 	public void startListening(View v) {
+		String inputLanguage = spinner1.getItemAtPosition(spinner1.getSelectedItemPosition()).toString();
+		for (int i = 0; i < Globals.numLanguages; i++) {
+			if (Globals.languages[i].equals(inputLanguage)){
+				inputLang = Globals.language_abbreviations[i];
+			}
+		}
+		String outputLanguage = spinner2.getItemAtPosition(spinner2.getSelectedItemPosition()).toString();
+		for (int i = 0; i < Globals.numLanguages; i++) {
+			if (Globals.languages[i].equals(outputLanguage)){
+				outputLang = Globals.language_abbreviations[i];
+			}
+		}
+		
 		Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-		i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+		i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, inputLang);
 		try {
 			startActivityForResult(i, REQUEST_OK);
 		} catch (Exception e) {
@@ -154,8 +190,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 				String googleApiKey = "AIzaSyB1fwathoLC04eSlvY8p5CmLxHBJbSyrMk";
 				String URL = "https://www.googleapis.com/language/translate/v2?key=MY_API_KEY&source=INITIAL_LANGUAGE_AB&target=OUTPUT_LANGUAGE_AB&q=" + input.replaceAll(" ", "+");  
 				URL = URL.replace("MY_API_KEY", googleApiKey);
-				URL = URL.replace("INITIAL_LANGUAGE_AB", "en");
-				URL = URL.replace("OUTPUT_LANGUAGE_AB", "fr");
+				URL = URL.replace("INITIAL_LANGUAGE_AB", inputLang);
+				URL = URL.replace("OUTPUT_LANGUAGE_AB", outputLang);
 				Log.e("test", URL);
 				HttpClient httpclient = new DefaultHttpClient();  
 		        HttpGet request = new HttpGet(URL);  
@@ -186,7 +222,10 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		@Override
 		protected void onPostExecute(String result) {
 			outputArea.setText(response);
-			sayHello();
+			output = response;
+			sayOutLoud();
+			updateCredits();
+			updateUI();
 		}
 	}
 
@@ -197,6 +236,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	@Override
 	public void onInit(int status) {
 		// status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
+		Log.e("", "onInit Called");
 		if (status == TextToSpeech.SUCCESS) {
 			int result = mTts.setLanguage(Locale.US);
 			if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -204,7 +244,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 				Log.e(LOG_TAG, "Language is not available.");
 			} else {
 				// The TTS engine has been successfully initialized.
-				sayHello();
 			}
 		} else {
 			// Initialization failed.
@@ -212,9 +251,10 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		}
 	}
 
-	private void sayHello() {
-		mTts.setLanguage(Locale.US);
-		mTts.speak(input,TextToSpeech.QUEUE_FLUSH,null);
+	private void sayOutLoud() {
+		Locale outputLocale = new Locale(outputLang);
+		mTts.setLanguage(outputLocale);
+		mTts.speak(output,TextToSpeech.QUEUE_FLUSH,null);
 	}
 
 	/* ************************************************************** */
@@ -270,7 +310,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	public void checkAvailableLanguages() {
 		Locale loc = new Locale("en");
 		String availableLangs = Arrays.toString(loc.getAvailableLocales());
-		Log.e("-------------", availableLangs);
+		//Log.e("-------------", availableLangs);
 		for (int i = 0; i < Globals.numLanguages; i++) {
 			String check = Globals.language_abbreviations[i];
 			check += ",";
@@ -279,10 +319,12 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			else
 				Globals.language_available[i] = false;
 		}
+		// Uncomment the following if you want to see all available languages
+		/*
 		for (int i = 0; i < Globals.numLanguages; i++) {
 			if (Globals.language_available[i])
 				Log.e("-------------", Globals.language_abbreviations[i]);
-		}
+		}*/ 
 	}
 
 	/**
@@ -309,17 +351,34 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	    	if (Globals.language_available[i])
 	    		SpinnerArray.add(Globals.languages[i]);
 	    }
-	    ArrayAdapter dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, SpinnerArray);
+	    ArrayAdapter dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, SpinnerArray);
 	    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    spinner1.setAdapter(dataAdapter);
-	    spinner2.setAdapter(dataAdapter);
+	    
+	    ArrayAdapter dataAdapter2 = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, SpinnerArray);
+	    dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    spinner2.setAdapter(dataAdapter2);
 	}
 
 	/**
 	 * Need to clean up text to speech stuff when app is destroyed
 	 */
 	@Override
+	  public void onPause() {
+	    adView.pause();
+	    super.onPause();
+	  }
+
+	  @Override
+	  public void onResume() {
+	    super.onResume();
+	    adView.resume();
+	  }
+
+	
+	@Override
 	public void onDestroy() {
+	    adView.destroy();
 		if (mTts != null) {
 			mTts.stop();
 			mTts.shutdown();
