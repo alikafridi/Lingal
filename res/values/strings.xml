@@ -2,10 +2,19 @@
 <resources>
 
     <string name="app_name">Link</string>
+    <string name="title_activity_store">StoreActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_store">StoreActivity</string>
+    <string name="empty">...</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_feedback">FeedbackActivity</string>
+    
+    <color name="river">#3498db</color>
+    <color name="alizarin">#e74c3c</color>
+    <color name="clouds">#ecf0f1</color>
+    <color name="silver">#bdc3c7</color>
+    <color name="concrete">#95a5a6</color>
+    <color name="wet_asphalt">#34495e</color>
+    <color name="midnight_blue">#2c3e50</color>
 
 </resources>

@@ -1,16 +1,49 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:background="@color/midnight_blue"
     tools:context=".MainActivity" >
 
+    <ImageButton
+        android:id="@+id/record"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="37dp"
+        android:src="@android:drawable/ic_btn_speak_now"
+        android:background="@color/clouds"
+        android:onClick="startListening" />
+
     <TextView
+        android:id="@+id/inputText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_marginTop="37dp"
+        android:layout_margin="10dp"
+	    android:layout_gravity="center_horizontal"
+        android:text="@string/empty"
+        android:textColor="@color/clouds" />
+    
+    <TextView
+        android:id="@+id/translatedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:layout_margin="10dp"
+	    android:layout_gravity="center_horizontal"
+        android:text="@string/empty"
+        android:textColor="@color/clouds" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/creditsRemaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:layout_margin="10dp"
+	    android:layout_gravity="center_horizontal"
+        android:text="@string/empty"
+        android:textColor="@color/clouds" />
+
+</LinearLayout>
