@@ -6,5 +6,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/microsoft-translator-java-api-0.6.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="libs/google-api-client-android-1.17.0-rc.jar"/>
+	<classpathentry kind="lib" path="libs/google-http-client-android-1.17.0-rc.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
