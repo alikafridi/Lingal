@@ -1,6 +1,7 @@
 package com.example.link;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,9 +73,22 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	}
 
 	public void checkAvailableLanguages() {
-		Intent detailsIntent =  new Intent(RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS);
+		/*Intent detailsIntent =  new Intent(RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS);
 	    sendOrderedBroadcast(
-	            detailsIntent, null, new LanguageDetailsChecker(), null, Activity.RESULT_OK, null, null);
+	            detailsIntent, null, new LanguageDetailsChecker(), null, Activity.RESULT_OK, null, null);*/
+		Locale loc = new Locale("en");
+		Log.e("-------------",Arrays.toString(loc.getAvailableLocales()));
+
+		/*Locale[] locales = Locale.getAvailableLocales();
+		List<Locale> localeList = new ArrayList<Locale>();
+		for (Locale locale : locales) {
+			//Log.e("-------------"," start");
+		    int res = mTts.isLanguageAvailable(locale);
+		    if (res == TextToSpeech.LANG_COUNTRY_AVAILABLE) {
+		        localeList.add(locale);
+		        Log.e("-------------",locale.toString());
+		    }
+		}*/
 	}
 
 	/**
@@ -209,6 +223,25 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	private void sayHello() {
 		mTts.setLanguage(Locale.US);
 		mTts.speak(input,TextToSpeech.QUEUE_FLUSH,null);
+	}
+
+	/**
+	 * Nav Buttons
+	 */
+
+	public void goToStore(View v) {
+		Intent intent = new Intent(this, StoreActivity.class);
+		startActivity(intent);
+	}
+	
+	public void goToSettings(View v) {
+		Intent intent = new Intent(this, StoreActivity.class);
+		startActivity(intent);
+	}
+	
+	public void goToFeedback(View v) {
+		Intent intent = new Intent(this, StoreActivity.class);
+		startActivity(intent);
 	}
 
 	@Override

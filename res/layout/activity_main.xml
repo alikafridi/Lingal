@@ -2,37 +2,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/midnight_blue"
+    android:orientation="vertical"
     tools:context=".MainActivity" >
 
     <ImageButton
         android:id="@+id/record"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_margin="10dp"
-        android:layout_marginTop="37dp"
-        android:src="@android:drawable/ic_btn_speak_now"
+        android:layout_marginTop="100dp"
         android:background="@color/clouds"
-        android:onClick="startListening" />
+        android:onClick="startListening"
+        android:src="@android:drawable/ic_btn_speak_now" />
 
     <TextView
         android:id="@+id/inputText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-	    android:layout_gravity="center_horizontal"
+        android:layout_marginTop="37dp"
         android:text="@string/empty"
         android:textColor="@color/clouds" />
-    
+
     <TextView
         android:id="@+id/translatedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-	    android:layout_gravity="center_horizontal"
+        android:layout_marginTop="37dp"
         android:text="@string/empty"
         android:textColor="@color/clouds" />
 
@@ -40,10 +41,46 @@
         android:id="@+id/creditsRemaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-	    android:layout_gravity="center_horizontal"
+        android:layout_marginTop="37dp"
         android:text="@string/empty"
         android:textColor="@color/clouds" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+    android:gravity="center" >
+
+        <Button
+            android:id="@+id/storeNavButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/clouds"
+            android:padding="10dp"
+            android:onClick="goToStore"
+            android:layout_marginRight="10dp"
+            android:text="@string/title_activity_store" />
+
+        <Button
+            android:id="@+id/settingsNavButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/clouds"
+            android:onClick="goToSettings"
+            android:text="@string/title_activity_settings" />
+
+        <Button
+            android:id="@+id/feedbackNavButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/clouds"
+            android:padding="10dp"
+            android:onClick="goToFeedback"
+            android:layout_marginLeft="10dp"
+            android:text="@string/title_activity_feedback" />
+    </LinearLayout>
 
 </LinearLayout>
