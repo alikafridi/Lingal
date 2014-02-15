@@ -1,0 +1,1 @@
+Android app by Ali Afridi for PennApps Spring 2014. Goal is to make an app that lets people have conversations with others even if they don't know a language in common.
