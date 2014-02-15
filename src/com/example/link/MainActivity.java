@@ -264,23 +264,37 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	}
 	
 	public void checkAvailableLanguages() {
-		// TODO - NEED TO COMPLETE
 		Locale loc = new Locale("en");
-		Log.e("-------------",Arrays.toString(loc.getAvailableLocales()));
+		String availableLangs = Arrays.toString(loc.getAvailableLocales());
+		Log.e("-------------", availableLangs);
+		for (int i = 0; i < Globals.numLanguages; i++) {
+			String check = Globals.language_abbreviations[i];
+			check += ",";
+			if (availableLangs.contains(check))
+				Globals.language_available[i] = true;
+			else
+				Globals.language_available[i] = false;
+		}
+		for (int i = 0; i < Globals.numLanguages; i++) {
+			if (Globals.language_available[i])
+				Log.e("-------------", Globals.language_abbreviations[i]);
+		}
 	}
 
 	/**
 	 * Checks whether the device has speech recognition
 	 */
 	private void checkVoiceRecognition() {
-		// Check if voice recognition is present
 		PackageManager pm = getPackageManager();
 		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
 				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		if (activities.size() == 0) {
 			Toast.makeText(this, "Speech to Text service not available on this phone",
 					Toast.LENGTH_LONG).show();
+			Globals.hasSpeechRecognizer = false;
 		}
+		else 
+			Globals.hasSpeechRecognizer = true;
 	}
 
 	/**
@@ -288,7 +302,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	 */
 	@Override
 	public void onDestroy() {
-		// Don't forget to shutdown!
 		if (mTts != null) {
 			mTts.stop();
 			mTts.shutdown();
