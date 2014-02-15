@@ -30,6 +30,7 @@ public class Globals {
 	public static volatile boolean appRated = false;
 	public static volatile int appShareReward = 5;
 
+	// Languages Available
 	public static volatile Language defaultLanguage1;
 	public static volatile Language defaultLanguage2;
 
@@ -37,29 +38,22 @@ public class Globals {
 	public static volatile List<String> supportedLanguages;
 
 	//2D array of language information. First row is language name, second row is abbreviation, third is whether it is valid or not.
-	public static volatile String[] languages = {"Arabic", "Armenian", "Bulgarian", "Chinese (Simplified)", "Chinese (Traditional)", "Croatian", "Czech", "Danish", "Dutch", "English-US", "English-UK",
-		"Finnish", "French", "German", "Greek", "Hebrew", "Hindi", "Hungarian", "Indonesian", "Italian", "Japanese", "Korean", "Latvian",
-		"Lithuanian", "Norwegian", "Polish", "Portuguese", "Romanian", "Russian", "Serbian", "Slovak", "Slovenian", "Spanish", "Swedish",
-		"Thai", "Turkish", "Ukrainian", "Urdu", "Vietnamese"};
-	
-	public static volatile String[] language_abbreviations = {"ar", "hy", "bg", "zh-CN", "zh-TW", "hr", "cs", "da", "nl", "en", "en-GB",
-		"fi", "fr", "de", "el", "he", "hi", "hu", "id", "it", "ja", "ko", "lv", 
-		"lt", "no", "pl", "pt", "ro", "ru", "sr", "sk", "sl", "es", "sv",
-		"th", "tr", "uk", "ur", "vi"};
-	
-	public static volatile String [][] languageInfo  = new String[39][3];
+	public static volatile String[] languages = {"Afrikaans", "Albanian", "Arabic", "Azerbaijani", "Basque", "Bengali",
+		"Belarusian", "Bulgarian", "Catalan", "Chinese Simplified", "Chinese Traditional", "Croatian", "Czech",
+		"Danish", "Dutch", "English", "Esperanto", "Estonian", "Filipino", "Finnish", "French", "Galician", "Georgian",
+		"German", "Greek", "Gujarati", "Haitian Creole", "Hebrew", "Hindi", "Hungarian", "Icelandic", "Indonesian", "Irish",
+		"Italian", "Japanese", "Kannada", "Korean", "Latin", "Latvian", "Lithuanian", "Macedonian", "Malay", "Maltese",
+		"Norwegian", "Persian", "Polish", "Portuguese", "Romanian", "Russian", "Serbian", "Slovak", "Slovenian",
+		"Spanish", "Swahili", "Swedish", "Tamil", "Telugu", "Thai", "Turkish", "Ukrainian", "Urdu", "Vietnamese", "Welsh", 
+		"Yiddish"};
 
-	public static void setUpLanguage() {
-		for (int i = 0; i < languages.length; i++) {
-			languageInfo[i][0] = languages[i];
-		}
-		
-		for (int i = 0; i < languages.length; i++) {
-			languageInfo[i][1] = language_abbreviations[i];
-		}
-		
-		for (int i = 0; i < languages.length; i++) {
-			languageInfo[i][2] = "false";
-		}
-	}
+	public static volatile String[] language_abbreviations = {"af", "sq", "ar", "az", "eu",
+		"bn", "be", "bg", "ca", "zh-CN", "zh-TW", "hr", "cs", "da", "nl", "en", "eo", "et",
+		"tl", "fi", "fr", "gl", "ka", "de", "el", "gu", "ht", "iw", "hi", "hu", "is", "id",
+		"ga", "it", "ja", "kn", "ko", "la", "lv", "lt", "mk", "ms", "mt", "no", "fa", "pl",
+		"pt", "ro", "ru", "sr", "sk", "sl", "es", "sw", "sv", "ta", "te", "th", "tr", "uk",
+		"ur", "vi", "cy", "yi"};
+
+	public static volatile boolean[] language_available = new boolean[64];
+	
 }
