@@ -42,7 +42,7 @@ import com.google.android.gms.ads.AdView;
 public class MainActivity extends Activity implements TextToSpeech.OnInitListener{
 
 	private AdView adView;
-	
+
 	public static final String LOG_TAG = "Main Activity";
 	protected static final int REQUEST_OK = 1;
 
@@ -57,8 +57,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	public TextView creditsRemainingArea;
 	public TextView inputArea;
 	public TextView outputArea;
-	
-	 private Spinner spinner1, spinner2;
+
+	private Spinner spinner1, spinner2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,24 +78,27 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		}
 		updateUI();
 		populateSpinners();
-		
+
 		// Create the adView.
-	    adView = new AdView(this);
-	    adView.setAdUnitId("ca-app-pub-7661487200792390/2093765061");
-	    adView.setAdSize(AdSize.BANNER);
+		adView = new AdView(this);
+		adView.setAdUnitId("ca-app-pub-7661487200792390/2093765061");
+		adView.setAdSize(AdSize.BANNER);
 
-	    // Lookup your LinearLayout assuming it's been given
-	    // the attribute android:id="@+id/mainLayout".
-	    LinearLayout layout = (LinearLayout)findViewById(R.id.adlayout);
+		// Lookup your LinearLayout assuming it's been given
+		// the attribute android:id="@+id/mainLayout".
+		LinearLayout layout = (LinearLayout)findViewById(R.id.adlayout);
 
-	    // Add the adView to it.
-	    layout.addView(adView);
+		// Add the adView to it.
+		layout.addView(adView);
 
-	    // Initiate a generic request.
-	    AdRequest adRequest = new AdRequest.Builder().build();
+		// Initiate a generic request.
+		AdRequest adRequest = new AdRequest.Builder().build();
 
-	    // Load the adView with the ad request.
-	    adView.loadAd(adRequest);
+		// Load the adView with the ad request.
+		Globals.premiumAccount = true;
+		if (!Globals.premiumAccount) {
+			adView.loadAd(adRequest);
+		}
 	}
 
 	@Override
@@ -104,7 +107,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	/* ************************************************************** */
 	/* ********************** Update Information ******************** */
 	/* ************************************************************** */
@@ -113,8 +116,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		Globals.creditsRemaining--;
 		Globals.creditsUsed++;
 	}
-	
-	
+
+
 	/**
 	 * Updates the UI elements of the app
 	 */
@@ -123,11 +126,11 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		if (!internetConnected())
 			Toast.makeText(this, "You are not connected to the internet", Toast.LENGTH_LONG).show();
 	}
-	
+
 	/* ************************************************************** */
 	/* ********************* Speech Recognitions ******************** */
 	/* ************************************************************** */
-	
+
 	/**
 	 * Method executes when the mic button is pressed
 	 * @param v
@@ -145,7 +148,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 				outputLang = Globals.language_abbreviations[i];
 			}
 		}
-		
+
 		Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 		i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, inputLang);
 		try {
@@ -174,7 +177,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			}
 		}
 	}
-	
+
 	/* ************************************************************** */
 	/* ************************ Translations ************************ */
 	/* ************************************************************** */
@@ -194,26 +197,26 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 				URL = URL.replace("OUTPUT_LANGUAGE_AB", outputLang);
 				Log.e("test", URL);
 				HttpClient httpclient = new DefaultHttpClient();  
-		        HttpGet request = new HttpGet(URL);  
-		        //request.addHeader("deviceId", deviceId);  
-		        ResponseHandler<String> handler = new BasicResponseHandler();  
-		        try {  
-		            response = httpclient.execute(request, handler);
-		            while (response.equals("no response")){
-		            	
-		            }
-		            int indexOfColon = response.indexOf("\": \"");
-		            int endOfWantedResult = response.indexOf("\"", indexOfColon+4);
-		            String results = response.substring(indexOfColon+4, endOfWantedResult);
+				HttpGet request = new HttpGet(URL);  
+				//request.addHeader("deviceId", deviceId);  
+				ResponseHandler<String> handler = new BasicResponseHandler();  
+				try {  
+					response = httpclient.execute(request, handler);
+					while (response.equals("no response")){
+
+					}
+					int indexOfColon = response.indexOf("\": \"");
+					int endOfWantedResult = response.indexOf("\"", indexOfColon+4);
+					String results = response.substring(indexOfColon+4, endOfWantedResult);
 
 					response = results;
-		        } catch (ClientProtocolException e) {  
-		            e.printStackTrace();  
-		        } catch (IOException e) {  
-		            e.printStackTrace();  
-		        }  
-		        httpclient.getConnectionManager().shutdown();  
-		        Log.i("AsyncTask: ", response); 
+				} catch (ClientProtocolException e) {  
+					e.printStackTrace();  
+				} catch (IOException e) {  
+					e.printStackTrace();  
+				}  
+				httpclient.getConnectionManager().shutdown();  
+				Log.i("AsyncTask: ", response); 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -232,7 +235,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	/* ************************************************************** */
 	/* *********************** Text to Speech *********************** */
 	/* ************************************************************** */
-	
+
 	@Override
 	public void onInit(int status) {
 		// status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
@@ -265,17 +268,17 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		Intent intent = new Intent(this, StoreActivity.class);
 		startActivity(intent);
 	}
-	
+
 	public void goToSettings(View v) {
 		Intent intent = new Intent(this, StoreActivity.class);
 		startActivity(intent);
 	}
-	
+
 	public void goToFeedback(View v) {
 		Intent intent = new Intent(this, StoreActivity.class);
 		startActivity(intent);
 	}
-	
+
 	/* ************************************************************** */
 	/* *********************** Error Checking *********************** */
 	/* ************************************************************** */
@@ -306,11 +309,13 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			checkVoiceRecognition();
 		}
 	}
-	
+
 	public void checkAvailableLanguages() {
 		Locale loc = new Locale("en");
 		String availableLangs = Arrays.toString(loc.getAvailableLocales());
 		//Log.e("-------------", availableLangs);
+		for (int i = 0; i < Globals.numLanguages; i++)
+			Globals.language_speech[i] = false;
 		for (int i = 0; i < Globals.numLanguages; i++) {
 			String check = Globals.language_abbreviations[i];
 			check += ",";
@@ -318,6 +323,11 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 				Globals.language_available[i] = true;
 			else
 				Globals.language_available[i] = false;
+			for (int a = 0; a < 8; a++) {
+				if (Globals.speechIncluded[a].equals(check.substring(0, check.length()-1))) {
+					Globals.language_speech[i] = true;
+				}
+			}
 		}
 		// Uncomment the following if you want to see all available languages
 		/*
@@ -342,43 +352,45 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		else 
 			Globals.hasSpeechRecognizer = true;
 	}
-	
+
 	private void populateSpinners() {
 		spinner1 = (Spinner) findViewById(R.id.inputLanguageSpinner);
 		spinner2 = (Spinner) findViewById(R.id.outputLanguageSpinner);
-		List<String> SpinnerArray =  new ArrayList<String>();
-	    for (int i = 0; i < Globals.numLanguages; i++) {
-	    	if (Globals.language_available[i])
-	    		SpinnerArray.add(Globals.languages[i]);
-	    }
-	    ArrayAdapter dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, SpinnerArray);
-	    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    spinner1.setAdapter(dataAdapter);
-	    
-	    ArrayAdapter dataAdapter2 = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, SpinnerArray);
-	    dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    spinner2.setAdapter(dataAdapter2);
+		List<String> SpinnerArray1 =  new ArrayList<String>();
+		List<String> SpinnerArray2 =  new ArrayList<String>();
+		for (int i = 0; i < Globals.numLanguages; i++) {
+			if (Globals.language_available[i] && Globals.language_speech[i])
+				SpinnerArray1.add(Globals.languages[i]);
+			if (Globals.language_available[i])
+				SpinnerArray2.add(Globals.languages[i]);
+		}
+		ArrayAdapter dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, SpinnerArray1);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner1.setAdapter(dataAdapter);
+
+		ArrayAdapter dataAdapter2 = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, SpinnerArray2);
+		dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner2.setAdapter(dataAdapter2);
 	}
 
 	/**
 	 * Need to clean up text to speech stuff when app is destroyed
 	 */
 	@Override
-	  public void onPause() {
-	    adView.pause();
-	    super.onPause();
-	  }
+	public void onPause() {
+		adView.pause();
+		super.onPause();
+	}
 
-	  @Override
-	  public void onResume() {
-	    super.onResume();
-	    adView.resume();
-	  }
+	@Override
+	public void onResume() {
+		super.onResume();
+		adView.resume();
+	}
 
-	
 	@Override
 	public void onDestroy() {
-	    adView.destroy();
+		adView.destroy();
 		if (mTts != null) {
 			mTts.stop();
 			mTts.shutdown();

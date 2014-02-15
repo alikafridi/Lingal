@@ -22,7 +22,7 @@ public class Globals {
 	public static volatile boolean firstOpen = true;
 
 	// Whether or not the account has been upgraded to premium
-	public static volatile boolean premiumAccount;
+	public static volatile boolean premiumAccount = false;
 
 	// Whether or not the user has shared or rated the app
 	public static volatile boolean appSharedFb = false;
@@ -55,12 +55,13 @@ public class Globals {
 		"ur", "vi", "cy", "yi"};
 
 	public static volatile int numLanguages = 64;
-	public static volatile String[] language_speech  = new String[numLanguages];
+	public static volatile boolean[] language_speech  = new boolean[numLanguages];
+	public static volatile String [] speechIncluded = {"zh-CN", "zh-TW", "en", "fr", "de", "it", "ja", "ko"};
 	public static volatile boolean[] language_available = new boolean[numLanguages];
-	
+
 	// Flags
 	public static volatile boolean hasTextToSpeech;
 	public static volatile boolean hasSpeechRecognizer;
-	
-	
+
+
 }
