@@ -12,7 +12,6 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,6 +29,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	public TextView creditsRemainingArea;
 	public TextView inputArea;
 	public TextView outputArea;
+	
+	 private Spinner spinner1, spinner2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			initialize();
 		}
 		updateUI();
+		populateSpinners();
 	}
 
 	@Override
@@ -295,6 +299,20 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		}
 		else 
 			Globals.hasSpeechRecognizer = true;
+	}
+	
+	private void populateSpinners() {
+		spinner1 = (Spinner) findViewById(R.id.inputLanguageSpinner);
+		spinner2 = (Spinner) findViewById(R.id.outputLanguageSpinner);
+		List<String> SpinnerArray =  new ArrayList<String>();
+	    for (int i = 0; i < Globals.numLanguages; i++) {
+	    	if (Globals.language_available[i])
+	    		SpinnerArray.add(Globals.languages[i]);
+	    }
+	    ArrayAdapter dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, SpinnerArray);
+	    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    spinner1.setAdapter(dataAdapter);
+	    spinner2.setAdapter(dataAdapter);
 	}
 
 	/**
