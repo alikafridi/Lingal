@@ -1,9 +1,18 @@
 package com.example.link;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,7 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.memetix.mst.language.Language;
-import com.memetix.mst.translate.Translate;
 
 public class MainActivity extends Activity implements TextToSpeech.OnInitListener{
 
@@ -63,6 +71,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		updateUI();
 		checkVoiceRecognition();
 		checkAvailableLanguages();
+		TranslateTextTask task = new TranslateTextTask();
+		task.execute("testing");
 	}
 
 	@Override
@@ -72,25 +82,19 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		return true;
 	}
 
-	public void checkAvailableLanguages() {
-		/*Intent detailsIntent =  new Intent(RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS);
-	    sendOrderedBroadcast(
-	            detailsIntent, null, new LanguageDetailsChecker(), null, Activity.RESULT_OK, null, null);*/
-		Locale loc = new Locale("en");
-		Log.e("-------------",Arrays.toString(loc.getAvailableLocales()));
-
-		/*Locale[] locales = Locale.getAvailableLocales();
-		List<Locale> localeList = new ArrayList<Locale>();
-		for (Locale locale : locales) {
-			//Log.e("-------------"," start");
-		    int res = mTts.isLanguageAvailable(locale);
-		    if (res == TextToSpeech.LANG_COUNTRY_AVAILABLE) {
-		        localeList.add(locale);
-		        Log.e("-------------",locale.toString());
-		    }
-		}*/
+	/**
+	 * Updates the UI elements of the app
+	 */
+	public void updateUI() {
+		creditsRemainingArea.setText(Globals.creditsRemaining + " Credits Remaining");
+		if (!internetConnected())
+			Toast.makeText(this, "You are not connected to the internet", Toast.LENGTH_LONG).show();
 	}
-
+	
+	/* ************************************************************** */
+	/* ********************* Speech Recognitions ******************** */
+	/* ************************************************************** */
+	
 	/**
 	 * Method executes when the mic button is pressed
 	 * @param v
@@ -118,32 +122,117 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			if (internetConnected()) {
 				TranslateTextTask task = new TranslateTextTask();
 				task.execute(new String[] { thingsYouSaid.get(0) });
+				
 			}
 			else {
 				new AlertDialog.Builder(this).setTitle("Alert").setMessage("You are not connected to the internet").setNeutralButton("OK", null).show();
 			}
 		}
 	}
+	
+	/* ************************************************************** */
+	/* ************************ Translations ************************ */
+	/* ************************************************************** */
 
 	/**
-	 * Updates the UI elements of the app
+	 * AsyncTask Background Thread to execute call to Bing Language converter
 	 */
-	public void updateUI() {
-		creditsRemainingArea.setText(Globals.creditsRemaining + " Credits Remaining");
-		if (!internetConnected())
-			Toast.makeText(this, "You are not connected to the internet", Toast.LENGTH_LONG).show();
-	}
+	private class TranslateTextTask extends AsyncTask<String, Void, String> {
+		String response = "no response";
+		@Override
+		protected String doInBackground(String... urls) {
+			try {
+				// Set the Google Translate API key
+			    // See: http://code.google.com/apis/language/translate/v2/getting_started.html
+				input = "My Name is Ali";
+				String googleApiKey = "AIzaSyB1fwathoLC04eSlvY8p5CmLxHBJbSyrMk";
+				String URL = "https://www.googleapis.com/language/translate/v2?key=MY_API_KEY&source=INITIAL_LANGUAGE_AB&target=OUTPUT_LANGUAGE_AB&q=" + input.replaceAll(" ", "+");  
+				URL = URL.replace("MY_API_KEY", googleApiKey);
+				URL = URL.replace("INITIAL_LANGUAGE_AB", "en");
+				URL = URL.replace("OUTPUT_LANGUAGE_AB", "fr");
+				Log.e("test", URL);
+				HttpClient httpclient = new DefaultHttpClient();  
+		        HttpGet request = new HttpGet(URL);  
+		        //request.addHeader("deviceId", deviceId);  
+		        ResponseHandler<String> handler = new BasicResponseHandler();  
+		        try {  
+		            response = httpclient.execute(request, handler);
+		            while (response.equals("no response")){
+		            	
+		            }
+		            int indexOfColon = response.indexOf("\": \"");
+		            int endOfWantedResult = response.indexOf("\"", indexOfColon+4);
+		            String results = response.substring(indexOfColon+4, endOfWantedResult);
 
-	/**
-	 * Sets up some Globals variables. Should only be called the first time the app is opened on a device. 
-	 */
-	private void initialize() {
-		if (Globals.firstOpen) {
-			Globals.creditsRemaining = Globals.initialCredits;
-			Globals.creditsUsed = 0;
-			Globals.firstOpen = false;
+					response = results;
+		        } catch (ClientProtocolException e) {  
+		            e.printStackTrace();  
+		        } catch (IOException e) {  
+		            e.printStackTrace();  
+		        }  
+		        httpclient.getConnectionManager().shutdown();  
+		        Log.i("AsyncTask: ", response); 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return response;
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			outputArea.setText(response);
+			sayHello();
 		}
 	}
+
+	/* ************************************************************** */
+	/* *********************** Text to Speech *********************** */
+	/* ************************************************************** */
+	
+	@Override
+	public void onInit(int status) {
+		// status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
+		if (status == TextToSpeech.SUCCESS) {
+			int result = mTts.setLanguage(Locale.US);
+			if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+				// Lanuage data is missing or the language is not supported.
+				Log.e(LOG_TAG, "Language is not available.");
+			} else {
+				// The TTS engine has been successfully initialized.
+				sayHello();
+			}
+		} else {
+			// Initialization failed.
+			Log.e(LOG_TAG, "Could not initialize TextToSpeech.");
+		}
+	}
+
+	private void sayHello() {
+		mTts.setLanguage(Locale.US);
+		mTts.speak(input,TextToSpeech.QUEUE_FLUSH,null);
+	}
+
+	/* ************************************************************** */
+	/* ************************ Nav. Buttons ************************ */
+	/* ************************************************************** */
+
+	public void goToStore(View v) {
+		Intent intent = new Intent(this, StoreActivity.class);
+		startActivity(intent);
+	}
+	
+	public void goToSettings(View v) {
+		Intent intent = new Intent(this, StoreActivity.class);
+		startActivity(intent);
+	}
+	
+	public void goToFeedback(View v) {
+		Intent intent = new Intent(this, StoreActivity.class);
+		startActivity(intent);
+	}
+	
+	/* ************************************************************** */
+	/* *********************** Error Checking *********************** */
+	/* ************************************************************** */
 
 	/**
 	 * @return	True if device is connected to the internet, False otherwise
@@ -170,80 +259,34 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		}
 	}
 
-	/**
-	 * AsyncTask Background Thread to execute call to Bing Language converter
-	 */
-	private class TranslateTextTask extends AsyncTask<String, Void, String> {
-		String response = "no response";
-		@Override
-		protected String doInBackground(String... urls) {
-			try {
-				Translate.setClientId("df98de58-28a8-4bc1-b014-91e899f8aebe");
-				Translate.setClientSecret("nZDSghLi+o1V0GJsSIIpGNq+yzV5qgoImnywzfELp8I=");
-				response = Translate.execute(input, Language.ENGLISH, Language.URDU);
-				while (response.equals("no response")) {
-
-				}
-				output = response;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return response;
-		}
-		@Override
-		protected void onPostExecute(String result) {
-			outputArea.setText(output);
-			sayHello();
-		}
-	}
-
-	@Override
-	public void onInit(int status) {
-		// TODO Auto-generated method stub
-		// status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
-		if (status == TextToSpeech.SUCCESS) {
-			int result = mTts.setLanguage(Locale.US);
-			if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-				// Lanuage data is missing or the language is not supported.
-				Log.e(LOG_TAG, "Language is not available.");
-			} else {
-				// Check the documentation for other possible result codes.
-				// For example, the language may be available for the locale,
-				// but not for the specified country and variant.
-				// The TTS engine has been successfully initialized.
-				// Greet the user.
-				sayHello();
-			}
-		} else {
-			// Initialization failed.
-			Log.e(LOG_TAG, "Could not initialize TextToSpeech.");
-		}
-	}
-
-	private void sayHello() {
-		mTts.setLanguage(Locale.US);
-		mTts.speak(input,TextToSpeech.QUEUE_FLUSH,null);
-	}
+	/* ************************************************************** */
+	/* ********************** Set Up / Clean Up ********************* */
+	/* ************************************************************** */
 
 	/**
-	 * Nav Buttons
+	 * Sets up some Globals variables. Should only be called the first time the app is opened on a device. 
 	 */
-
-	public void goToStore(View v) {
-		Intent intent = new Intent(this, StoreActivity.class);
-		startActivity(intent);
+	private void initialize() {
+		if (Globals.firstOpen) {
+			Globals.creditsRemaining = Globals.initialCredits;
+			Globals.creditsUsed = 0;
+			Globals.firstOpen = false;
+			checkAvailableLanguages();
+		}
 	}
 	
-	public void goToSettings(View v) {
-		Intent intent = new Intent(this, StoreActivity.class);
-		startActivity(intent);
+	public void checkAvailableLanguages() {
+		
+		Locale loc = new Locale("en");
+		Log.e("-------------",Arrays.toString(loc.getAvailableLocales()));
+
 	}
 	
-	public void goToFeedback(View v) {
-		Intent intent = new Intent(this, StoreActivity.class);
-		startActivity(intent);
-	}
 
+	
+	/**
+	 * Need to clean up text to speech stuff when app is destroyed
+	 */
 	@Override
 	public void onDestroy() {
 		// Don't forget to shutdown!
