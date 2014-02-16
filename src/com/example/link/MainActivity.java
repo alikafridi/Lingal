@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
@@ -59,6 +60,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	public TextView outputArea;
 
 	private Spinner spinner1, spinner2;
+	
+	private SharedPreferences globals;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,13 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		globals = getPreferences(MODE_PRIVATE);
+		Globals.creditsRemaining = globals.getInt("creditsRemaining", Globals.creditsRemaining);
+		Globals.creditsUsed = globals.getInt("creditsUsed", Globals.creditsUsed);
+		Globals.firstOpen = globals.getBoolean("firstOpen", Globals.firstOpen);
+		Globals.premiumAccount = globals.getBoolean("premiumAccount", Globals.premiumAccount);
+		
+		
 		creditsRemainingArea = ((TextView)findViewById(R.id.creditsRemaining));
 		inputArea = ((TextView)findViewById(R.id.inputText));
 		outputArea = ((TextView)findViewById(R.id.translatedText));
@@ -76,6 +86,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		if (Globals.firstOpen) {
 			initialize();
 		}
+		checkAvailableLanguages();
+		checkVoiceRecognition();
 		updateUI();
 		populateSpinners();
 
@@ -95,7 +107,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		AdRequest adRequest = new AdRequest.Builder().build();
 
 		// Load the adView with the ad request.
-		Globals.premiumAccount = true;
+		//Globals.premiumAccount = true;
 		if (!Globals.premiumAccount) {
 			adView.loadAd(adRequest);
 		}
@@ -270,12 +282,12 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	}
 
 	public void goToSettings(View v) {
-		Intent intent = new Intent(this, StoreActivity.class);
+		Intent intent = new Intent(this, SettingsActivity.class);
 		startActivity(intent);
 	}
 
 	public void goToFeedback(View v) {
-		Intent intent = new Intent(this, StoreActivity.class);
+		Intent intent = new Intent(this, FeedbackActivity.class);
 		startActivity(intent);
 	}
 
@@ -305,8 +317,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			Globals.creditsRemaining = Globals.initialCredits;
 			Globals.creditsUsed = 0;
 			Globals.firstOpen = false;
-			checkAvailableLanguages();
-			checkVoiceRecognition();
 		}
 	}
 
@@ -389,12 +399,22 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		spinner2.setSelection(spinnerPosition1);
 	}
 	
+	private void setPreference() {
+		SharedPreferences.Editor editor = globals.edit();
+		editor.putInt("creditsRemaining", Globals.creditsRemaining);
+		editor.putInt("creditsUsed", Globals.creditsUsed);
+		editor.putBoolean("firstOpen", Globals.firstOpen);
+		editor.putBoolean("premiumAccount", Globals.premiumAccount);
+		editor.commit();
+	}
+	
 	/**
 	 * Need to clean up text to speech stuff when app is destroyed
 	 */
 	@Override
 	public void onPause() {
 		adView.pause();
+		setPreference();
 		super.onPause();
 	}
 
@@ -411,6 +431,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			mTts.stop();
 			mTts.shutdown();
 		}
+		setPreference();
 		super.onDestroy();
 	}
 

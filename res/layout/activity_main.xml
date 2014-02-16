@@ -27,61 +27,98 @@
         android:padding="10dp"
         android:src="@android:drawable/ic_btn_speak_now" />
 
-    <TextView
-        android:id="@+id/language1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="37dp"
-        android:text="Select language 1:"
-        android:textColor="@color/clouds" />
-
-    <Spinner
-        android:id="@+id/inputLanguageSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/clouds" />
-
-    <TextView
-        android:id="@+id/inputText"
+    <LinearLayout
+        android:id="@+id/adlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:layout_marginTop="37dp"
-        android:text="@string/empty"
-        android:textColor="@color/clouds"
-        android:textSize="16dp" />
+        android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/language2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="50dp"
-        android:text="Select language 2:"
-        android:textColor="@color/clouds" />
+        <LinearLayout
+            android:id="@+id/adlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
 
-    <Spinner
-        android:id="@+id/outputLanguageSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/clouds" />
+            <TextView
+                android:id="@+id/language1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="37dp"
+                android:text="Select language 1:"
+                android:textColor="@color/clouds" />
 
-    <TextView
-        android:id="@+id/translatedText"
+            <Spinner
+                android:id="@+id/inputLanguageSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/clouds" />
+
+            <TextView
+                android:id="@+id/inputText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:layout_marginTop="37dp"
+                android:text="@string/empty"
+                android:textColor="@color/clouds"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/adlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/language2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="50dp"
+                android:text="Select language 2:"
+                android:textColor="@color/clouds" />
+
+            <Spinner
+                android:id="@+id/outputLanguageSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/clouds" />
+
+            <TextView
+                android:id="@+id/translatedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:layout_marginTop="37dp"
+                android:text="@string/empty"
+                android:textColor="@color/clouds"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/storeNavButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:layout_marginTop="37dp"
-        android:text="@string/empty"
-        android:textColor="@color/clouds"
-        android:textSize="16dp" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/midnight_blue"
+        android:onClick="switchLanguages"
+        android:padding="10dp"
+        android:src="@drawable/switcher"
+        android:text="SWITCH" />
 
     <TextView
         android:id="@+id/creditsRemaining"
@@ -92,16 +129,6 @@
         android:layout_marginTop="37dp"
         android:text="x Credits Remaining"
         android:textColor="@color/clouds" />
-    
-    <Button
-            android:id="@+id/storeNavButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:background="@color/clouds"
-            android:onClick="switchLanguages"
-            android:padding="10dp"
-            android:text="SWITCH" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -111,33 +138,34 @@
 
         <ImageButton
             android:id="@+id/storeNavButton"
-       	 	android:src="@drawable/credits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/midnight_blue"
-            android:layout_marginRight="10dp"
             android:onClick="goToStore"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:src="@drawable/credits" />
 
         <ImageButton
             android:id="@+id/settingsNavButton"
-       	 	android:src="@drawable/settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/midnight_blue"
             android:onClick="goToSettings"
             android:padding="10dp"
+            android:src="@drawable/settings"
             android:text="@string/title_activity_settings" />
 
         <ImageButton
             android:id="@+id/feedbackNavButton"
-       	 	android:src="@drawable/rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/midnight_blue"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/midnight_blue"
             android:onClick="goToFeedback"
             android:padding="10dp"
+            android:src="@drawable/rate"
             android:text="@string/title_activity_feedback" />
     </LinearLayout>
+
 </LinearLayout>

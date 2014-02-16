@@ -16,7 +16,7 @@ public class Globals {
 	public static volatile int creditsUsed = 0;
 
 	// Whether or not a coupon has been used
-	public static volatile boolean couponUsed = false;
+	//public static volatile boolean couponUsed = false;
 
 	// Whether this is the first time the app is being opened
 	public static volatile boolean firstOpen = true;
@@ -24,12 +24,14 @@ public class Globals {
 	// Whether or not the account has been upgraded to premium
 	public static volatile boolean premiumAccount = false;
 
+	/* TODO - Will implement rewards later.
 	// Whether or not the user has shared or rated the app
 	public static volatile boolean appSharedFb = false;
 	public static volatile boolean appTweeted = false;
 	public static volatile boolean appRated = false;
 	public static volatile int appShareReward = 5;
-
+*/
+	
 	// Languages Available
 	public static volatile Language defaultLanguage1;
 	public static volatile Language defaultLanguage2;
