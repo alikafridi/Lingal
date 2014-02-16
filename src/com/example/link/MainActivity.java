@@ -359,10 +359,11 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		List<String> SpinnerArray1 =  new ArrayList<String>();
 		List<String> SpinnerArray2 =  new ArrayList<String>();
 		for (int i = 0; i < Globals.numLanguages; i++) {
-			if (Globals.language_available[i] && Globals.language_speech[i])
+			if (Globals.language_available[i] && Globals.language_speech[i]) {
 				SpinnerArray1.add(Globals.languages[i]);
-			if (Globals.language_available[i])
+				//if (Globals.language_available[i])
 				SpinnerArray2.add(Globals.languages[i]);
+			}
 		}
 		ArrayAdapter dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, SpinnerArray1);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -373,6 +374,21 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		spinner2.setAdapter(dataAdapter2);
 	}
 
+	public void switchLanguages(View v) {
+		String inputLanguage = spinner1.getItemAtPosition(spinner1.getSelectedItemPosition()).toString();
+		String outputLanguage = spinner2.getItemAtPosition(spinner2.getSelectedItemPosition()).toString();
+		
+		ArrayAdapter myAdap = (ArrayAdapter) spinner1.getAdapter(); //cast to an ArrayAdapter
+		ArrayAdapter myAdap2 = (ArrayAdapter) spinner2.getAdapter(); //cast to an ArrayAdapter
+
+		int spinnerPosition1 = myAdap.getPosition(inputLanguage);
+		int spinnerPosition2 = myAdap2.getPosition(outputLanguage);
+
+		//set the default according to value
+		spinner1.setSelection(spinnerPosition2);
+		spinner2.setSelection(spinnerPosition1);
+	}
+	
 	/**
 	 * Need to clean up text to speech stuff when app is destroyed
 	 */

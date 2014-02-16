@@ -92,6 +92,16 @@
         android:layout_marginTop="37dp"
         android:text="x Credits Remaining"
         android:textColor="@color/clouds" />
+    
+    <Button
+            android:id="@+id/storeNavButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@color/clouds"
+            android:onClick="switchLanguages"
+            android:padding="10dp"
+            android:text="SWITCH" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,34 +109,35 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
-        <Button
+        <ImageButton
             android:id="@+id/storeNavButton"
+       	 	android:src="@drawable/credits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/midnight_blue"
             android:layout_marginRight="10dp"
-            android:background="@color/clouds"
             android:onClick="goToStore"
-            android:padding="10dp"
-            android:text="@string/title_activity_store" />
+            android:padding="10dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/settingsNavButton"
+       	 	android:src="@drawable/settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/clouds"
+            android:background="@color/midnight_blue"
             android:onClick="goToSettings"
             android:padding="10dp"
             android:text="@string/title_activity_settings" />
 
-        <Button
+        <ImageButton
             android:id="@+id/feedbackNavButton"
+       	 	android:src="@drawable/rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/midnight_blue"
             android:layout_marginLeft="10dp"
-            android:background="@color/clouds"
             android:onClick="goToFeedback"
             android:padding="10dp"
             android:text="@string/title_activity_feedback" />
     </LinearLayout>
-
 </LinearLayout>

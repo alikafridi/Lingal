@@ -181,6 +181,13 @@
         android:text="I would like to purchase: "
         android:textColor="@color/clouds" />
 
+    <Spinner
+        android:id="@+id/inputCreditsSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/clouds"
+        android:layout_gravity="center_horizontal" />
+
     <Button
         android:id="@+id/storeNavButton"
         android:layout_width="wrap_content"
