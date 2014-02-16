@@ -108,7 +108,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		AdRequest adRequest = new AdRequest.Builder().build();
 
 		// Load the adView with the ad request.
-		//Globals.premiumAccount = true;
+		Globals.premiumAccount = true;
 		if (!Globals.premiumAccount) {
 			adView.loadAd(adRequest);
 		}

@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginTop="37dp"
-                android:text="Select language 1:"
+                android:text="Input Language:"
                 android:textColor="@color/clouds" />
 
             <Spinner
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginTop="50dp"
-                android:text="Select language 2:"
+                android:text="Output Language:"
                 android:textColor="@color/clouds" />
 
             <Spinner

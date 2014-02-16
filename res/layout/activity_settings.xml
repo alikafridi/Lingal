@@ -6,13 +6,26 @@
     android:orientation="vertical"
     tools:context=".SettingsActivity" >
 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="This Page has not yet been implemented"
+        android:textColor="@color/clouds"
+        android:textSize="20dp" />
+
     <Button
-            android:id="@+id/storeNavButton"
-            android:layout_width="125px"
-            android:layout_height="wrap_content"
-            android:background="@color/silver"
-            android:onClick="goToMain"
-            android:layout_marginRight="25px"
-            android:text="@string/title_activity_main" />
+        android:id="@+id/storeNavButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:background="@color/clouds"
+        android:onClick="goToMain"
+        android:padding="10dp"
+        android:text="@string/title_activity_main" />
 
 </LinearLayout>
