@@ -30,8 +30,8 @@ public class Globals {
 	public static volatile boolean appTweeted = false;
 	public static volatile boolean appRated = false;
 	public static volatile int appShareReward = 5;
-*/
-	
+	 */
+
 	// Languages Available
 	public static volatile Language defaultLanguage1;
 	public static volatile Language defaultLanguage2;
@@ -47,7 +47,7 @@ public class Globals {
 		"Italian", "Japanese", "Kannada", "Korean", "Latin", "Latvian", "Lithuanian", "Macedonian", "Malay", "Maltese",
 		"Norwegian", "Persian", "Polish", "Portuguese", "Romanian", "Russian", "Serbian", "Slovak", "Slovenian",
 		"Spanish", "Swahili", "Swedish", "Tamil", "Telugu", "Thai", "Turkish", "Ukrainian", "Urdu", "Vietnamese", "Welsh", 
-		"Yiddish"};
+	"Yiddish"};
 
 	public static volatile String[] language_abbreviations = {"af", "sq", "ar", "az", "eu",
 		"bn", "be", "bg", "ca", "zh-CN", "zh-TW", "hr", "cs", "da", "nl", "en", "eo", "et",

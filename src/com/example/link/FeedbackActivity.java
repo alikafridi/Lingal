@@ -15,9 +15,6 @@ public class FeedbackActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_feedback);
-		  Intent intent = new Intent(Intent.ACTION_VIEW);
-		  intent.setData(Uri.parse("market://details?id=com.example.link"));
-		  startActivity(intent);
 	}
 
 	@Override

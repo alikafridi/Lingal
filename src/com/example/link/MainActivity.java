@@ -22,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -60,7 +61,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	public TextView outputArea;
 
 	private Spinner spinner1, spinner2;
-	
+
 	private SharedPreferences globals;
 
 	@Override
@@ -74,8 +75,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		Globals.creditsUsed = globals.getInt("creditsUsed", Globals.creditsUsed);
 		Globals.firstOpen = globals.getBoolean("firstOpen", Globals.firstOpen);
 		Globals.premiumAccount = globals.getBoolean("premiumAccount", Globals.premiumAccount);
-		
-		
+
+
 		creditsRemainingArea = ((TextView)findViewById(R.id.creditsRemaining));
 		inputArea = ((TextView)findViewById(R.id.inputText));
 		outputArea = ((TextView)findViewById(R.id.translatedText));
@@ -287,7 +288,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	}
 
 	public void goToFeedback(View v) {
-		Intent intent = new Intent(this, FeedbackActivity.class);
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse("market://details?id=com.example.link"));
 		startActivity(intent);
 	}
 
@@ -387,7 +389,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 	public void switchLanguages(View v) {
 		String inputLanguage = spinner1.getItemAtPosition(spinner1.getSelectedItemPosition()).toString();
 		String outputLanguage = spinner2.getItemAtPosition(spinner2.getSelectedItemPosition()).toString();
-		
+
 		ArrayAdapter myAdap = (ArrayAdapter) spinner1.getAdapter(); //cast to an ArrayAdapter
 		ArrayAdapter myAdap2 = (ArrayAdapter) spinner2.getAdapter(); //cast to an ArrayAdapter
 
@@ -398,7 +400,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		spinner1.setSelection(spinnerPosition2);
 		spinner2.setSelection(spinnerPosition1);
 	}
-	
+
 	private void setPreference() {
 		SharedPreferences.Editor editor = globals.edit();
 		editor.putInt("creditsRemaining", Globals.creditsRemaining);
@@ -407,7 +409,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		editor.putBoolean("premiumAccount", Globals.premiumAccount);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Need to clean up text to speech stuff when app is destroyed
 	 */

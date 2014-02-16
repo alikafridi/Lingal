@@ -185,15 +185,14 @@
         android:id="@+id/inputCreditsSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/clouds"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@color/clouds" />
 
     <Button
         android:id="@+id/storeNavButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="25dp"
         android:background="@color/clouds"
         android:onClick="goToMain"
