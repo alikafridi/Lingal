@@ -1,4 +1,4 @@
-package com.example.link;
+package com.hackiton.link;
 
 import java.io.IOException;
 import java.util.ArrayList;

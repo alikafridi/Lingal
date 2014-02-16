@@ -1,4 +1,4 @@
-package com.example.link;
+package com.hackiton.link;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.android.vending.billing.IInAppBillingService;
+import com.parse.Parse;
+import com.parse.ParseObject;
 
 public class StoreActivity extends Activity {
 
@@ -44,6 +46,12 @@ public class StoreActivity extends Activity {
 		bindService(new 
 		        Intent("com.android.vending.billing.InAppBillingService.BIND"),
 		                mServiceConn, Context.BIND_AUTO_CREATE);
+		Parse.initialize(this, "tInCzpvS8OnX9b6UNt6drQIezkqVi9MwnpnzrbYe", "InfysTDhLOBhLAxTKXsLMS0lkDeuNfK26mqeeNrN");
+		
+		ParseObject testObject = new ParseObject("Coupons");
+		testObject.put("10", "10free4me");
+		
+		testObject.saveInBackground();
 	}
 
 	@Override

@@ -18,3 +18,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+#-dontwarn **CompatHoneycomb
+#-dontwarn **CompatCreatorHoneycombMR2
+#-dontwarn android.support.v4.view.**
+#-keep class android.support.v4.** { *; }
+#
+#-dontwarn java.awt.**,javax.security.**,java.beans.**,javax.xml.**,java.util.**,org.w3c.dom.**

@@ -5,11 +5,10 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="libs/microsoft-translator-java-api-0.6.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="libs/google-api-client-android-1.17.0-rc.jar"/>
 	<classpathentry kind="lib" path="libs/google-http-client-android-1.17.0-rc.jar"/>
-	<classpathentry kind="lib" path="libs/google-api-translate-java-0.97.jar"/>
 	<classpathentry kind="lib" path="libs/google-play-services.jar"/>
 	<classpathentry kind="lib" path="libs/gson-1.7.1.jar"/>
+	<classpathentry kind="lib" path="libs/Parse-1.4.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

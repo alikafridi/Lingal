@@ -1,8 +1,7 @@
-package com.example.link;
+package com.hackiton.link;
 
 import java.util.List;
 
-import com.memetix.mst.language.Language;
 
 public class Globals {
 	// List of static variables
@@ -31,10 +30,6 @@ public class Globals {
 	public static volatile boolean appRated = false;
 	public static volatile int appShareReward = 5;
 	 */
-
-	// Languages Available
-	public static volatile Language defaultLanguage1;
-	public static volatile Language defaultLanguage2;
 
 	//Languages supported
 	public static volatile List<String> supportedLanguages;
